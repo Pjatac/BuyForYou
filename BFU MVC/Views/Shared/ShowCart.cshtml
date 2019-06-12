@@ -1,0 +1,73 @@
+﻿@model DAL.Models.Cart
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Main
+	{
+	<div id="centre" class="col-xs-9" align="center">
+		<h2>Your cart</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Product</th>
+					<th class="text-right">Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var line in Model.Lines)
+				{
+					<tr>
+						<td class="text-left">@line.Product.ShortDescription</td>
+						<td class="text-right">@line.Product.Price.ToString("# $")</td>
+						<td>
+							<span>
+								@using (Ajax.BeginForm("RemoveFromCart", "Cart", new { id = line.Product.Id }, new AjaxOptions
+								{
+									HttpMethod = "POST",
+									InsertionMode = InsertionMode.Replace,
+									UpdateTargetId = "myBody",
+								}))
+								{
+									<input class="btn btn-sm btn-warning" type="submit" value="Remove" />
+									if (line.Tosale)
+									{
+										<input type="checkbox" id="@(line.Product.Id + "check")" checked="checked" class="tobay" value="@(line.Product.Id)" />
+									}
+									else
+									{
+										<input type="checkbox" id="@(line.Product.Id + "check")" class="tobay" value="@(line.Product.Id)" />
+									}
+								}
+							</span>
+						</td>
+					</tr>
+				}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2" class="text-right">Summ:</td>
+					<td class="text-right" id="summ">
+						@Model.ComputeTotalValue().ToString("# $")
+						@if (HttpContext.Current.Request.Cookies["Auth"] != null)
+						{
+							<p>You have at a discount: @((Model.ComputeTotalValue() / 10).ToString("# $"))</p>
+							<p>Total cost: @((Model.ComputeTotalValue() - Model.ComputeTotalValue() / 10).ToString("# $"))</p>
+						}
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<div class="text-center">
+			<input type="button" value="Return" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Home")'" />
+			@if (Model.GetCount() == 0)
+			{
+				<input type="button" value="Buy" class="btn btn-primary" onclick="alert('Cart is empty!')" />
+			}
+			else
+			{
+				<a class="btn btn-primary" href="#" id="doBuy" click="">Buy</a>
+			}
+		</div>
+	</div>
+}

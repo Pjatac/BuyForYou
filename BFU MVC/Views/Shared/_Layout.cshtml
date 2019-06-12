@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title - My ASP.NET Application</title>
+	<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<script src="~/Scripts/modernizr-2.6.2.js"></script>
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+	<script type="text/javascript" src="~/Scripts/jquery.cookie.js"></script>
+	<script>
+		$(document).ready(function () {
+		$("body").on("change", '#sortCombo', function () {
+				var selected = this.value;
+				$.ajax({
+					method: "POST",
+					url: "/Home/SetSortSelect",
+					data: { id: selected }
+				}).done(function () {
+					var action = "@Url.Action("ShowProducts", "Home")";
+					$.get(action, function (response) {
+						$("#centre").html(response);
+					});
+				});
+			});
+			$("body").on("click", '.tobay', function () {
+				var num = this.getAttribute('value');
+				if ($(this).is(':checked')) {
+					var chd1 = $.ajax({
+						method: "POST",
+						async: true,
+						url: '/Cart/SetToSale',
+						data: { id: num }
+					})
+						.done(function () {
+							var action = "@Url.Action("ShowCart", "Cart")";
+							$.get(action, function (response) {
+								$("#myBody").html(response);
+							});
+						});
+				} else {
+					var chd2 = $.ajax({
+						method: "POST",
+						async: true,
+						url: "/Cart/SetNotSale",
+						data: { id: num }
+					})
+						.done(function () {
+							var action = "@Url.Action("ShowCart", "Cart")";
+							$.get(action, function (response) {
+								$("#myBody").html(response);
+							});
+						});
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Buy for you", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+        </div>
+    </div>
+	<div class="container body-content" id="myBody">
+		<br>
+		<div class="row panel" id="myPage">
+			<div id="centre" class="col-xs-9" align="center">
+				@if (IsSectionDefined("Main"))
+				{
+					@RenderSection("Main")
+				}
+				else
+				{
+					@Html.Action("ShowProducts")
+				}
+			</div>
+			<div id="rightpanel" class="col-xs-3">
+				<div id="login">
+					@using System.Web
+					@if (IsSectionDefined("Login"))
+					{
+						@RenderSection("Login")
+					}
+					else
+					{
+						if (HttpContext.Current.Request.Cookies["Auth"] != null)
+						{
+							@Html.Partial("Logon");
+						}
+						else
+						{
+							@Html.Partial("Login", new DAL.Models.LoginModel());
+						}
+					}
+				</div>
+				<div id="navigate">
+					@if (IsSectionDefined("Navigate"))
+					{
+						@RenderSection("Navigate")
+					}
+					else
+					{
+						@Html.Action("Navigate", "Home");
+					}
+				</div>
+			</div>
+		</div>
+
+		@RenderBody()
+		<hr />
+		<footer>
+			<p>&copy; @DateTime.Now.Year - My BFU</p>
+		</footer>
+	</div>
+
+	<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+	</body>
+</html>

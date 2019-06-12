@@ -1,0 +1,13 @@
+﻿@Html.ActionLink("About", "About")
+<br>
+@Html.ActionLink("Home", "Index")
+<br>
+@Html.ActionLink("Your cart", "ShowCart", "Cart")
+<br>
+@using System.Web
+@if (HttpContext.Current.Request.Cookies["Auth"] != null)
+{
+	@Html.ActionLink("Add product", "AddProduct", "Home");
+	<br>
+	@Html.ActionLink("Edit your products", "ShowOwnProducts", "Home");
+}

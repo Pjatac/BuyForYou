@@ -1,0 +1,16 @@
+﻿@model IEnumerable<DAL.Models.Product>
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Main
+{
+<div class="col-xs-12">
+	@foreach (var p in Model)
+	{
+		if (p.Sold == 0)
+		{
+			@Html.Partial("ShowOwnShort", p);
+		}
+	}
+</div>
+}

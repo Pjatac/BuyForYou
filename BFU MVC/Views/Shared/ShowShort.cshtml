@@ -1,0 +1,16 @@
+﻿@model DAL.Models.Product
+
+<div class="col-xs-4">
+	<div>
+		<span max-width="inherit">@Model.Title</span>
+		<br>
+		<a onclick="location.href='@Url.Action("ShowDetails", "Home", new { id = @Model.Id })'">
+			@Html.Raw("<img style='width:80px; height:80px;' src=\"data:image/png;base64," + Convert.ToBase64String(Model.Picture1) + "\" />")
+		</a>
+		<span>
+			@Model.Price $
+			<br>
+			<input type="button" value="Add to cart" class="btn btn-primary" onclick="location.href='@Url.Action("AddToCart", "Cart", new { id = @Model.Id })'" />
+		</span>
+	</div>
+</div>

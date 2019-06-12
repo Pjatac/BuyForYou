@@ -1,0 +1,59 @@
+﻿@model DAL.Models.Product
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Main
+{
+	<h2>Product information</h2>
+	@using (Html.BeginForm("AddProduct", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "getProductForm" }))
+	{
+		@Html.EditorForModel();
+		@Html.DisplayNameFor(x => x.Picture1)
+		<br>
+		if (Model != null)
+		{
+			@Html.Raw("<img style='width:100px; height:100px;' id=\"img1\" src=\"data:image/png;base64," + Convert.ToBase64String(Model.Picture1) + "\" />");
+		}
+		else
+		{
+			@Html.Raw("<img id=\"img1\"/>");
+		}
+		<fieldset>
+			<div class="editor-field">
+				<input type="file" name="uploadImage1" id="uploadImage1" onchange="document.getElementById('img1').src = window.URL.createObjectURL(this.files[0]); document.getElementById('img1').style='width:100px; height:100px;'" />
+			</div>
+		</fieldset>
+		@Html.DisplayNameFor(x => x.Picture2)
+		<br>
+		if (Model != null)
+		{
+			@Html.Raw("<img style='width:100px; height:100px;' id=\"img2\" src=\"data:image/png;base64," + Convert.ToBase64String(Model.Picture2) + "\" />");
+		}
+		else
+		{
+			@Html.Raw("<img id=\"img2\"/>");
+		}
+		<fieldset>
+			<div class="editor-field">
+				<input type="file" name="uploadImage2" id="uploadImage2" onchange="document.getElementById('img2').src = window.URL.createObjectURL(this.files[0]); document.getElementById('img2').style='width:100px; height:100px;'" />
+			</div>
+		</fieldset>
+		@Html.DisplayNameFor(x => x.Picture3)
+		<br>
+		if (Model != null)
+		{
+			@Html.Raw("<img style='width:100px; height:100px;' id=\"img3\" src=\"data:image/png;base64," + Convert.ToBase64String(Model.Picture3) + "\" />");
+		}
+		else
+		{
+			@Html.Raw("<img id=\"img3\"/>");
+		}
+		<fieldset>
+			<div class="editor-field">
+				<input type="file" name="uploadImage3" id="uploadImage3" onchange="document.getElementById('img3').src = window.URL.createObjectURL(this.files[0]); document.getElementById('img3').style='width:100px; height:100px;'" />
+			</div>
+		</fieldset>
+		<input type="submit" value="Submit" id="addProductSubmit" click="" />
+		<input type="button" value="Return" onclick="location.href='@Url.Action("Index", "Home")'"/>
+	}
+}

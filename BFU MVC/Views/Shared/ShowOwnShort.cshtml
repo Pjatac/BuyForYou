@@ -1,0 +1,11 @@
+﻿@model DAL.Models.Product
+
+<div class="col-xs-3">
+	@Model.Title
+	<br>
+	@Html.Raw("<img style='width:60px; height:60px;' src=\"data:image/png;base64," + Convert.ToBase64String(Model.Picture1) + "\" />")
+	<span>
+		<input type="button" value="Edit" class="btn btn-success" onclick="location.href='@Url.Action("AddProduct", "Home", new { id = @Model.Id })'" />
+		<input type="button" value="Delete" class="btn btn-success" onclick="location.href='@Url.Action("DelProduct", "Home", new { id = @Model.Id })'" />
+	</span>
+</div>

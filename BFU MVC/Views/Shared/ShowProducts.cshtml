@@ -1,0 +1,37 @@
+﻿@model BFU.Models.IndexViewModel
+@using BFU.Helpers
+<script>
+	function ChangePag(num) {
+	var action = "@Url.Action("ShowProducts", "Home")" + "?page=" + num;
+	$.get(action, function (response) {
+		$("#centre").html(response);
+	});
+	};
+</script>
+<span>
+	<select id="sortCombo" align="center">
+		<option value='-1' @if (Session["Sort"] == null) { @Html.Raw("selected") }>-select sort-</option>
+		<option value='0' @if (Session["Sort"] != null && (int)Session["Sort"] == 0) { @Html.Raw("selected") }>Newests</option>
+		<option value='1' @if (Session["Sort"] != null && (int)Session["Sort"] == 1) { @Html.Raw("selected") }>Lastest</option>
+		<option value='2' @if (Session["Sort"] != null && (int)Session["Sort"] == 2) { @Html.Raw("selected") }>Lowest first</option>
+		<option value='3' @if (Session["Sort"] != null && (int)Session["Sort"] == 3) { @Html.Raw("selected") }>Highest first</option>
+		<option value='4' @if (Session["Sort"] != null && (int)Session["Sort"] == 4) { @Html.Raw("selected") }>"A-Z" first</option>
+		<option value='5' @if (Session["Sort"] != null && (int)Session["Sort"] == 5) { @Html.Raw("selected") }>"Z-A" first</option>
+	</select>
+	<br>
+</span>
+<div class="col-xs-12">
+	@foreach (var p in Model.Products)
+	{
+		if (p.Sold == 0)
+		{
+			@Html.Partial("ShowShort", p);
+		}
+	}
+</div>
+<div class="btn-group col-xs-12" align="center">
+	<br>
+	<span style="margin:0 auto;">
+		@Html.PageLinks(Model.PageInfo)
+	</span>
+</div>
