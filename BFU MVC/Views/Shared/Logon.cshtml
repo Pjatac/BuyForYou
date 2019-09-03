@@ -4,18 +4,4 @@
 
 <br>
 <input type="button" value="Log off" onclick="location.href='@Url.Action("Logoff", "Accaunt")'" class="btn btn-default" id="logoff" />
-<input type="button" value="Edit accaunt" id="editClient" onclick="" class="btn btn-default" />
-
-@*@section Main
-	{
-	@Html.Action("ShowProducts")
-}
-@section Navigate
-	{
-	<div id="navigate">
-		@{
-			Html.Action("Navigate");
-		}
-	</div>
-
-}*@
+@Html.ActionLink("Edit account", "AddClient", "Home", new { id = @HttpContext.Current.Request.Cookies["Auth"].Values["UserID"] }, new { @class = "btn btn-default" })

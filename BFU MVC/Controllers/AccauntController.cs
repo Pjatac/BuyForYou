@@ -1,14 +1,12 @@
 ﻿using DAL;
 using DAL.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace BFU_MVC.Controllers
 {
-    public class AccauntController : Controller
+	public class AccauntController : Controller
     {
 		[AllowAnonymous]
 		public ActionResult Login()

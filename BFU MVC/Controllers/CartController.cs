@@ -41,7 +41,7 @@ namespace BFU_MVC.Controllers
 		public Cart GetCart()
 		{
 			Cart cart = (Cart)Session["Cart"];
-			if (cart == null)
+			if (cart == null || cart.GetCount() == 0)
 			{
 				cart = new Cart();
 				List<Product> prList = new List<Product>();

@@ -34,12 +34,12 @@
 						url: '/Cart/SetToSale',
 						data: { id: num }
 					})
-						.done(function () {
-							var action = "@Url.Action("ShowCart", "Cart")";
-							$.get(action, function (response) {
-								$("#myBody").html(response);
-							});
+					.done(function () {
+						var action = "@Url.Action("ShowCart", "Cart")";
+						$.get(action, function (response) {
+							$("#myBody").html(response);
 						});
+					});
 				} else {
 					var chd2 = $.ajax({
 						method: "POST",
@@ -47,12 +47,12 @@
 						url: "/Cart/SetNotSale",
 						data: { id: num }
 					})
-						.done(function () {
-							var action = "@Url.Action("ShowCart", "Cart")";
-							$.get(action, function (response) {
-								$("#myBody").html(response);
-							});
+					.done(function () {
+						var action = "@Url.Action("ShowCart", "Cart")";
+						$.get(action, function (response) {
+							$("#myBody").html(response);
 						});
+					});
 				}
 			});
 		});

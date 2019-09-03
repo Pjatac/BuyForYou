@@ -123,6 +123,7 @@
     </Compile>
     <Compile Include="Halpers\PaginHalpers.cs" />
     <Compile Include="Models\PageInfo.cs" />
+    <Compile Include="Models\TimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
     <Content Include="Views\Home\ShowOwnProducts.cshtml" />
     <Content Include="Views\Shared\ShowOwnShort.cshtml" />
     <Content Include="Views\Home\AddProduct.cshtml" />
+    <Content Include="Views\Home\AddClient.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -152,10 +154,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Accaunt\" />
-    <Folder Include="Views\Cart\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{b4c6561e-eed2-4d54-a1d9-5b3e7bbc606e}</Project>

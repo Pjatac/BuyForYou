@@ -1,0 +1,25 @@
+﻿@model DAL.Models.Client
+
+@if (ViewBag.Message != string.Empty)
+{
+<script>
+    $(document).ready(function () {
+        alert('@ViewBag.Message');
+    });
+</script>
+}
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Main
+{
+	<h2>Personal information</h2>
+	@using (Html.BeginForm("AddClient", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "getClientForm" }))
+		{
+			@Html.EditorForModel();
+			<br>
+			<input type="submit" value="Submit" id="addClientSubmit" click="" />
+			<input type="button" value="Return" onclick="location.href='@Url.Action("Index", "Home")'" />
+		}
+}

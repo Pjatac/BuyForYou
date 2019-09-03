@@ -1,4 +1,5 @@
 ﻿using BFU.Models;
+using BFU_MVC.Models;
 using DAL;
 using DAL.Models;
 using System;
@@ -13,9 +14,19 @@ namespace BFU_MVC.Controllers
     public class HomeController : Controller
     {
 		ProductRepo pr = new ProductRepo();
+		ClientRepo cl = new ClientRepo();
 		public ActionResult Index()
         {
-            return View();
+			if (TimeManager.Instance.CheckTime())
+			{
+				if (Session["Cart"] != null)
+				{
+					Cart cart = (Cart)Session["Cart"];
+					cart.Clear();
+					Session["Cart"] = cart;
+				}
+			}
+			return View();
         }
 		public PartialViewResult ShowProducts(int page = 1)
 		{
@@ -142,7 +153,57 @@ namespace BFU_MVC.Controllers
 				long id = Convert.ToInt64(cookieReq["UserID"]);
 				product.OwnerId = cl.FindClient(id).Id;
 				pr.AddProduct(product);
-				return PartialView("ShowOwnProducts", pr.GetOwnProducts(id));
+				return PartialView("ShowOwnProducts");
+			}
+			else
+			{
+				return PartialView();
+			}
+		}
+		[HttpGet]
+		public ActionResult AddClient(long? id)
+		{
+			if (id == null)
+			{
+				return View();
+			}
+			else
+			{
+				Client client = cl.FindClient((long)id);
+				return View(client);
+			}
+		}
+		[HttpPost]
+		public ActionResult AddClient(Client client)
+		{
+			if (ModelState.IsValid)
+			{
+				ClientRepo cl = new ClientRepo();
+				if (cl.FindClient((long)client.Id) != null)
+				{
+					cl.ChangeClient(client);
+					return RedirectToAction("Index", "Home");
+				}
+				else
+				{
+					if (cl.CheckUsername(client.UserName))
+					{
+						ViewBag.Message = "Sorry, this nickname already in use";
+						return PartialView();
+					}
+					else
+					{
+						cl.AddClient(client);
+						client = cl.FindClient(client.UserName);
+						HttpCookie cookie = new HttpCookie("Auth");
+						cookie["AuthUser"] = client.UserName;
+						cookie["UserID"] = client.Id.ToString();
+						cookie.Expires = DateTime.Now.AddDays(1);
+						Response.Cookies.Add(cookie);
+						Session.Clear();
+						return RedirectToAction("Index", "Home");
+					}
+				}
 			}
 			else
 			{

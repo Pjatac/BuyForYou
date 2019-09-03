@@ -49,7 +49,7 @@ namespace DAL
 				return null;
 			}
 		}
-		public long FindClient(string name)
+		public Client FindClient(string name)
 		{
 			using (var dbContext = new BFUContext())
 			{
@@ -57,10 +57,10 @@ namespace DAL
 				{
 					if (c.UserName == name)
 					{
-						return c.Id;
+						return c;
 					}
 				}
-				return 0;
+				return null;
 			}
 		}
 		public Client FindClient(long id)
@@ -100,13 +100,13 @@ namespace DAL
 				dbContext.SaveChanges();
 			}
 		}
-		public bool CheckUsername(string name, long id)
+		public bool CheckUsername(string name)
 		{
 			using (var dbContext = new BFUContext())
 			{
 				foreach (var c in dbContext.Clients)
 				{
-					if (c.UserName == name && c.Id != id)
+					if (c.UserName == name)
 						return true;
 				}
 			}
